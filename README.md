@@ -1,2 +1,2 @@
-# onsite-core-api
-backend for onsite applications
+# onsite-api
+onsite api
