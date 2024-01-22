@@ -1,5 +1,3 @@
-import { User } from '../User';
-
 type Status = 'Open' | 'Closed' | 'In Progress' | 'Cancelled';
 
 type Incident = 'Interior' | 'Exterior' | 'Hvac' | 'Landscape' | 'Other';

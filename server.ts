@@ -1,5 +1,5 @@
 import Hapi from '@hapi/hapi';
-import { createTicket } from './src/controllers/ticket';
+import { routes } from './src/routes';
 
 const init = async () => {
     const server = Hapi.server({
@@ -7,11 +7,7 @@ const init = async () => {
         host: 'localhost',
     });
 
-    server.route({
-        method: 'POST',
-        path: '/create-ticket',
-        handler: createTicket,
-    });
+    server.route([...routes]);
 
     await server.start();
     console.log('Server running on %s', server.info.uri);

@@ -4,7 +4,7 @@
     "description": "",
     "main": "server.ts",
     "scripts": {
-        "start": "ts-node server.ts",
+        "start": "nodemon",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
@@ -17,6 +17,7 @@
     "devDependencies": {
         "@types/node": "^20.11.5",
         "@types/pg": "^8.10.9",
-        "typescript": "^5.3.3"
+        "typescript": "^5.3.3",
+        "nodemon": "^3.0.3"
     }
 }
