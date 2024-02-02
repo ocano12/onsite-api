@@ -5,10 +5,9 @@ type Incident = 'Interior' | 'Exterior' | 'Hvac' | 'Landscape' | 'Other';
 export interface Ticket {
     id: number;
     title: string;
-    description?: string;
     status: Status;
-    urgent: boolean;
-    location?: string;
+    emergancy: boolean;
+    site?: string;
     incidentType?: Incident;
     assigned?: number;
     dateCreated: Date;
