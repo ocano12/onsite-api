@@ -1,31 +1,28 @@
-import { pool } from '../models/database';
+import { pool } from '../utils/database/database';
 import { Ticket } from '@models';
 import { Request, ResponseToolkit } from '@hapi/hapi';
+import { dbInsert } from '@database';
 
 //TODO: add pool release in the finally block of a try catch for all requests
 
 export const createTicket = async (req: Request, h: ResponseToolkit) => {
     try {
-        const { title, description, status, urgent, location, incidentType, assigned, createdBy } =
-            req.payload as Ticket;
+        const { title, status, emergancy, site, incidentType, assigned, createdBy } = req.payload as Ticket;
 
-        //TODO: add validation here
-        const result = await pool.query(
-            'INSERT INTO tickets (title, description, status, urgent, incident_type, location, assigned, created_by) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-            [title, description, status, urgent, incidentType, location, assigned, createdBy]
-        );
+        const ticket = await dbInsert({
+            tableName: 'tickets',
+            columns: ['title', 'status', 'emergancy', 'incident_type', 'site', 'assigned', 'created_by'],
+            values: [title, status, emergancy, site, incidentType, assigned, createdBy],
+        });
 
-        return result.rows[0];
+        return ticket;
     } catch (error) {
         console.error(error);
-        return h.response('Error creating ticket').code(500);
+        return h.response(`Error creating ticket - reason: ${error}`).code(500);
     }
 };
 
-export const getTickets = async (
-    req: Request,
-    h: ResponseToolkit
-): Promise<Ticket[] | ReturnType<ResponseToolkit['response']>> => {
+export const getTickets = async (req: Request, h: ResponseToolkit): Promise<Ticket[] | ReturnType<ResponseToolkit['response']>> => {
     //TODO: add validation here
 
     const ticket = await pool.query('SELECT * FROM TICKETS ');

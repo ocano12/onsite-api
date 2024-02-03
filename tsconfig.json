@@ -2,12 +2,14 @@
     "compilerOptions": {
         "target": "es2016",
         "module": "commonjs",
+        "baseUrl": ".",
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "skipLibCheck": true,
         "paths": {
-            "@models": ["./src/models/index"]
+            "@models": ["./src/models/index"],
+            "@database": ["./src/utils/database/database"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "./src/**/*"],
