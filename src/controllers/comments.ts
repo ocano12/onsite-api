@@ -1,13 +1,14 @@
 import { Comment } from '@models';
-import { pool } from '../utils/database/database';
+import { dbInsert } from '@database';
 
-export const insertComments = async ({ comment, createdBy }: Comment) => {
+//TODO: should i just return the ID? I think so
+export const insertComments = async (comment: string, createdBy: number): Promise<Comment['id']> => {
     try {
-        const result = await pool.query('INSERT INTO tickets (comments, created_by) VALUES ($1, $2) RETURNING *', [comment, createdBy]);
+        const result: Comment = await dbInsert({ tableName: 'comments', columns: ['comment, created_by'], values: [comment, createdBy] });
 
-        return result.rows[0];
+        return result.id;
     } catch (e) {
         console.log(e);
-        return {};
+        throw new Error(`Could not inser comment reason = ${e}`);
     }
 };

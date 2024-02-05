@@ -4,4 +4,5 @@ export interface Comment {
     dateCreated: Date;
     dateModified: Date;
     createdBy: number;
+    modifiedBY: number;
 }

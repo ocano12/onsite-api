@@ -2,17 +2,23 @@ import { pool } from '../utils/database/database';
 import { Ticket } from '@models';
 import { Request, ResponseToolkit } from '@hapi/hapi';
 import { dbInsert } from '@database';
+import { insertSite } from './site';
+import { insertComments } from './comments';
 
 //TODO: add pool release in the finally block of a try catch for all requests
 
 export const createTicket = async (req: Request, h: ResponseToolkit) => {
     try {
-        const { title, status, emergancy, site, incidentType, assigned, createdBy } = req.payload as Ticket;
+        const { title, status, emergancy, site, incidentType, assigned, comment, createdBy } = req.payload as Ticket;
 
-        const ticket = await dbInsert({
+        if (comment) {
+            const commentID = await insertComments(comment, createdBy);
+        }
+
+        const ticket: Ticket = await dbInsert({
             tableName: 'tickets',
-            columns: ['title', 'status', 'emergancy', 'incident_type', 'site', 'assigned', 'created_by'],
-            values: [title, status, emergancy, site, incidentType, assigned, createdBy],
+            columns: ['title', 'status', 'emergancy', 'incident_type', 'created_by'],
+            values: [title, status, emergancy, incidentType, createdBy],
         });
 
         return ticket;

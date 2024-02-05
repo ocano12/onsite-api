@@ -1,3 +1,4 @@
+import { Address, Comment } from '@models';
 type Status = 'Open' | 'Closed' | 'In Progress' | 'Cancelled';
 
 type Incident = 'Interior' | 'Exterior' | 'Hvac' | 'Landscape' | 'Other';
@@ -7,10 +8,12 @@ export interface Ticket {
     title: string;
     status: Status;
     emergancy: boolean;
-    site?: string;
+    site?: number;
     incidentType?: Incident;
+    comment?: string;
     assigned?: number;
     dateCreated: Date;
     dateModified: Date;
     createdBy: number;
+    modifiedBy: number;
 }
