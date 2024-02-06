@@ -1,4 +1,5 @@
 import { pool } from '@database';
+import { table } from 'console';
 
 export interface DBProps<T> {
     tableName: string;
@@ -8,16 +9,18 @@ export interface DBProps<T> {
 
 //TODO: what should return here to better error handle.
 export const dbInsert = async <T>({ tableName, columns, values }: DBProps<T>) => {
+    console.log('orlando');
     try {
         const columnString: string = columns.join(', ');
 
         const valueString: string = columns.map((_, index) => `$${index + 1}`).join(', ');
 
         const query = `INSERT INTO ${tableName} (${columnString}) VALUES (${valueString}) RETURNING *`;
+        console.log(query);
         const result = await pool.query(query, values);
 
         return result.rows[0];
     } catch (e) {
-        throw new Error(`Could not insert into ${tableName}, reason = ${e}`);
+        throw `table ${tableName} ${e}`;
     }
 };

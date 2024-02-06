@@ -1,5 +1,5 @@
 import { pool } from '../utils/database/database';
-import { Ticket } from '@models';
+import { Ticket, TicketPayload } from '@models';
 import { Request, ResponseToolkit } from '@hapi/hapi';
 import { dbInsert } from '@database';
 import { insertSite } from './site';
@@ -9,22 +9,23 @@ import { insertComments } from './comments';
 
 export const createTicket = async (req: Request, h: ResponseToolkit) => {
     try {
-        const { title, status, emergancy, site, incidentType, assigned, comment, createdBy } = req.payload as Ticket;
+        const { title, status, emergancy, siteID, incidentType, comment, userID } = req.payload as TicketPayload;
+        let commentID;
 
         if (comment) {
-            const commentID = await insertComments(comment, createdBy);
+            commentID = await insertComments(comment, userID);
         }
 
         const ticket: Ticket = await dbInsert({
             tableName: 'tickets',
-            columns: ['title', 'status', 'emergancy', 'incident_type', 'created_by'],
-            values: [title, status, emergancy, incidentType, createdBy],
+            columns: ['title', 'status', 'site_id', 'emergancy', 'incident_type', 'comment_id', 'created_by', 'modified_by'],
+            values: [title, status, siteID, emergancy, incidentType, commentID, userID, userID],
         });
 
         return ticket;
     } catch (error) {
         console.error(error);
-        return h.response(`Error creating ticket - reason: ${error}`).code(500);
+        return h.response(`Error creating ticket: ${error}`).code(500);
     }
 };
 

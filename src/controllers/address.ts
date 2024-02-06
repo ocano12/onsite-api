@@ -9,6 +9,6 @@ export const insertAddress = async (address1: string, city: string, state: strin
         return result.id;
     } catch (e) {
         console.log(e);
-        throw new Error(`Could not inser comment reason = ${e}`);
+        throw new Error(`${e}`);
     }
 };
