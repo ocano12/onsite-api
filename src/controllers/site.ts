@@ -1,5 +1,6 @@
 import { Site } from '@models';
-import { dbInsert } from '@database';
+import { dbInsert, pool } from '@database';
+import { Request, ResponseToolkit } from '@hapi/hapi';
 
 //TODO: should i just return the ID? I think so
 export const insertSite = async ({ name, createdBy }: Site) => {
@@ -11,4 +12,17 @@ export const insertSite = async ({ name, createdBy }: Site) => {
         console.log(e);
         return {};
     }
+};
+
+//TODO: create a common get all
+export const getAllSites = async (req: Request, h: ResponseToolkit): Promise<Site[] | ReturnType<ResponseToolkit['response']>> => {
+    //TODO: add validation here
+
+    const site = await pool.query('SELECT * FROM SITES ');
+
+    if (site.rows.length === 0) {
+        return h.response('Site not found').code(404);
+    }
+
+    return site.rows;
 };
