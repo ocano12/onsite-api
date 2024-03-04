@@ -1,5 +1,5 @@
-import * as TicketController from '../controllers/ticket';
-import * as SiteController from '../controllers/site';
+import * as TicketController from '../controllers/tickets';
+import * as SiteController from '../controllers/sites';
 import { ServerRoute } from '@hapi/hapi';
 
 //TODO: separate these this file might get huge!
@@ -11,22 +11,22 @@ export const routes: ServerRoute[] = [
     },
     {
         method: 'GET',
-        path: '/ticket',
+        path: '/tickets',
         handler: TicketController.getTickets,
     },
     {
         method: 'GET',
-        path: '/ticket/{ticketID}',
+        path: '/tickets/{ticketID}',
         handler: TicketController.getTicketByID,
     },
     {
         method: 'PUT',
-        path: '/ticket/{ticketID}',
+        path: '/tickets/{ticketID}',
         handler: TicketController.updateTicketByID,
     },
     {
         method: 'DELETE',
-        path: '/ticket/{ticketID}',
+        path: '/tickets/{ticketID}',
         handler: TicketController.deleteTicketByID,
     },
     {

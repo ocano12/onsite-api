@@ -18,7 +18,9 @@ export const insertSite = async ({ name, createdBy }: Site) => {
 export const getAllSites = async (req: Request, h: ResponseToolkit): Promise<Site[] | ReturnType<ResponseToolkit['response']>> => {
     //TODO: add validation here
 
-    const site = await pool.query('SELECT * FROM SITES ');
+    const site = await pool.query(
+        'SELECT s.id, s.name, s.isresidential, a.address_1, a.address_2, a.city, a.state, a.zip_code FROM sites s, addresses a WHERE s.address_id = a.id'
+    );
 
     if (site.rows.length === 0) {
         return h.response('Site not found').code(404);

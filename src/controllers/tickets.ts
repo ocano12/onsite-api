@@ -2,7 +2,7 @@ import { pool } from '../utils/database/database';
 import { Ticket, TicketPayload } from '@models';
 import { Request, ResponseToolkit } from '@hapi/hapi';
 import { dbInsert } from '@database';
-import { insertSite } from './site';
+import { insertSite } from './sites';
 import { insertComments } from './comments';
 
 //TODO: add pool release in the finally block of a try catch for all requests

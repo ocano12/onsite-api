@@ -1,5 +1,6 @@
 import { Address } from '@models';
-import { dbInsert } from '@database';
+import { dbInsert, pool } from '@database';
+import { Request, ResponseToolkit } from '@hapi/hapi';
 
 //TODO: should i just return the ID? I think so
 export const insertAddress = async (address1: string, city: string, state: string, zipCode: string, address2?: string): Promise<Address['id']> => {
